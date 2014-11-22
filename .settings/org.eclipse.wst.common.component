@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
-    <wb-module deploy-name="RestAPI">
+    <wb-module deploy-name="RESTAPI">
         <wb-resource deploy-path="/" source-path="/WebContent" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src"/>
-        <property name="context-root" value="RestAPI"/>
-        <property name="java-output-path" value="/RestAPI/build/classes"/>
+        <property name="java-output-path" value="/RESTAPI/build/classes"/>
+        <property name="context-root" value="RESTAPI"/>
     </wb-module>
 </project-modules>
