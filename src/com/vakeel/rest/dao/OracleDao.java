@@ -16,10 +16,6 @@ public class OracleDao {
 	public static Connection getOracleConn() throws SQLException,
 			ClassNotFoundException {
 
-		if (conn != null) {
-			return conn;
-		}
-		
 		Class.forName(Driver_NAME);
 		conn = DriverManager.getConnection(URL, USER_NAME, PASSWORD);
 

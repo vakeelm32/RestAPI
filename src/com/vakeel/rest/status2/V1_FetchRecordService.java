@@ -18,7 +18,7 @@ import com.vakeel.rest.JSON.ToJSON;
 import com.vakeel.rest.dao.OracleDao;
 
 @Path("/fetchRecord")
-public class FetchRecordService {
+public class V1_FetchRecordService {
 
 	@Path("friends")
 	@GET
