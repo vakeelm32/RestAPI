@@ -12,8 +12,8 @@ $(document).ready(function() {
 	
 	getFreindsData();
 	
-	$(document.body).on('click', ':button, .UPDATE_BTN', function(e) {
-		console.log(this);
+	$(document.body).on('click', ' .UPDATE_BTN', function(e) {//:button,
+		//console.log(this);
 		var $this = $(this)
 			, FRND_DATA = $this.val()
 			, $tr = $this.closest('tr')
@@ -43,6 +43,34 @@ $(document).ready(function() {
 		$('#update_response').text("");
 	});
 	
+	
+	$(document.body).on('click', ' .DELETE_BTN', function(e) {
+		alert('hello');
+		//console.log(this);
+		var $this = $(this)
+			, FRND_DATA = $this.val()
+			, obj = {FRND_DATA : FRND_DATA}
+			, $tr = $this.closest('tr')
+			, phonenumber = $tr.find('.phonenumber').text()
+			, name = $tr.find('.name').text();
+		
+		deleteFriendsData(obj, phonenumber, name);
+	});
+	
+	/*delete_btn_function=function(e,box){
+		alert('ab');
+	console.log(box);
+	var $this = $(box)
+		, FRND_DATA = $this.val()
+		, obj = {FRND_DATA : FRND_DATA}
+		, $tr = $this.closest('tr')
+		, phonenumber = $tr.find('.phonenumber').text()
+		, name = $tr.find('.name').text();
+	
+	deleteFriendsData(obj, phonenumber, name);
+		
+	};*/
+	
 	$put_example.submit(function(e) {
 		e.preventDefault(); //cancel form submit
 		
@@ -57,7 +85,7 @@ function updateInventory(obj, mobileNumber, companyName) {
 	
 	ajaxObj = {  
 			type: "PUT",
-			url: "http://localhost:8080/RESTAPI/api/v3/records/" + mobileNumber +"/"+ companyName,
+			url: "http://localhost:8080/RESTAPI/api/v3/records/update/" + mobileNumber +"/"+ companyName,
 			data: JSON.stringify(obj), 
 			contentType:"application/json",
 			error: function(jqXHR, textStatus, errorThrown) {
@@ -69,6 +97,30 @@ function updateInventory(obj, mobileNumber, companyName) {
 			},
 			complete: function(XMLHttpRequest) {
 				//console.log( XMLHttpRequest.getAllResponseHeaders() );
+				getFreindsData();
+			}, 
+			dataType: "json" //request JSON
+		};
+		
+	return $.ajax(ajaxObj);
+}
+
+function deleteFriendsData(obj, mobileNumber, companyName) {
+	
+	ajaxObj = {  
+			type: "DELETE",
+			url: "http://localhost:8080/RESTAPI/api/v3/records/delete/" + mobileNumber +"/"+ companyName,
+			data: JSON.stringify(obj), 
+			contentType:"application/json",
+			error: function(jqXHR, textStatus, errorThrown) {
+				console.log(jqXHR.responseText);
+			},
+			success: function(data) {
+				console.log(data);
+				$('#delete_response').text( data[0].MSG);
+			},
+			complete: function(XMLHttpRequest) {
+				console.log( XMLHttpRequest.getAllResponseHeaders() );
 				getFreindsData();
 			}, 
 			dataType: "json" //request JSON
@@ -100,6 +152,7 @@ function getFreindsData() {
 				});
 				
 				$('#get_friendsData').html("<table border='1'>" + html_string + "</table>");
+				//$('.UPDATE_BTN , .DELETE_BTN').trigger('click');
 			},
 			complete: function(XMLHttpRequest) {
 				//console.log( XMLHttpRequest.getAllResponseHeaders() );
@@ -122,6 +175,9 @@ function templateGetInventory(param) {
 				'<td class="phonenumber">' + param.PHONENUMBER + '</td>' +
 				
 				'<td class="UPDATE_BTN"> <button class="UPDATE_BTN" value=" ' + param.FRND_DATA + ' " type="button">Update</button> </td>' +
+				'<td class="DELETE_BTN"> <button class="DELETE_BTN" value=" ' + param.FRND_DATA + ' " type="button">Delete</button> </td>' +
+				/*'<td class="DELETE_BTN"> <button class="DELETE_BTN" onclick="delete_btn_function(event,this)" value=" ' + param.FRND_DATA + ' " type="button">Delete</button> </td>'+*/
+				
 			'</tr>';
 	
 }

@@ -1,6 +1,7 @@
 package com.vakeel.rest.status2;
 
 import javax.ws.rs.Consumes;
+import javax.ws.rs.DELETE;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -46,18 +47,9 @@ public class V3_FetchRecordService {
 					itemEntry.optString("phonenumber"));
 
 			if (http_code == 200) {
-				/*
-				 * The put method allows you to add data to a JSONObject. The
-				 * first parameter is the KEY (no spaces) The second parameter
-				 * is the Value
-				 */
 				jsonObject.put("HTTP_CODE", "200");
 				jsonObject.put("MSG",
 						"Item has been entered successfully, Version 3");
-				/*
-				 * When you are dealing with JSONArrays, the put method is used
-				 * to add JSONObjects into JSONArray.
-				 */
 				returnString = jsonArray.put(jsonObject).toString();
 			} else {
 				return Response.status(500).entity("Unable to enter Item")
@@ -76,7 +68,7 @@ public class V3_FetchRecordService {
 		return Response.ok(returnString).build();
 	}
 	
-	@Path("/{mobileNumber}/{name}")
+	@Path("update/{mobileNumber}/{name}")
 	@PUT
 	@Consumes({MediaType.APPLICATION_FORM_URLENCODED,MediaType.APPLICATION_JSON})
 	@Produces(MediaType.APPLICATION_JSON)
@@ -93,16 +85,51 @@ public class V3_FetchRecordService {
 		
 		try {
 			
-			/*JSONObject partsData = new JSONObject(incomingData); //we are using json objects to parse data
-			mobileNumber = partsData.optString("mobileNumber");
-			name = partsData.optString("name");*/
-			
-			//call the correct sql method
 			http_code = queryResult.updateItem(companyName, mobileNumber);
 			
 			if(http_code == 200) {
 				jsonObject.put("HTTP_CODE", "200");
 				jsonObject.put("MSG", "Item has been updated successfully");
+			} else {
+				return Response.status(500).entity("Server was not able to process your request").build();
+			}
+			
+			returnString = jsonArray.put(jsonObject).toString();
+			
+		} catch(Exception e) {
+			e.printStackTrace();
+			return Response.status(500).entity("Server was not able to process your request").build();
+		}
+		
+		return Response.ok(returnString).build();
+	}
+	
+	@Path("delete/{mobileNumber}/{name}")
+	@DELETE
+	@Consumes({MediaType.APPLICATION_FORM_URLENCODED,MediaType.APPLICATION_JSON})
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteItem(@PathParam("mobileNumber") String mobileNumber,
+									@PathParam("name") String name,
+									String incomingData) 
+								throws Exception {
+		
+		//System.out.println("incomingData: " + incomingData);
+		//System.out.println("brand: " + brand);
+		//System.out.println("item_number: " + item_number);
+		
+		int http_code;
+		String returnString = null;
+		JSONArray jsonArray = new JSONArray();
+		JSONObject jsonObject = new JSONObject();
+		QueryResult queryResult=new QueryResult();
+		
+		try {
+			
+			http_code = queryResult.deleteItem(mobileNumber);
+			
+			if(http_code == 200) {
+				jsonObject.put("HTTP_CODE", "200");
+				jsonObject.put("MSG", "Item has been deleted successfully");
 			} else {
 				return Response.status(500).entity("Server was not able to process your request").build();
 			}

@@ -8,7 +8,7 @@
  */
 $(document).ready(function() {
 	
-	getInventory();
+	getFreindsData();
 	
 	$(document.body).on('click', ':button, .DELETE_BTN', function(e) {
 		//console.log(this);
@@ -47,29 +47,29 @@ function deleteInventory(obj, maker, code) {
 	return $.ajax(ajaxObj);
 }
 
-function getInventory() {
+function getFreindsData() {
 	
 	var d = new Date()
 		, n = d.getTime();
 	
 	ajaxObj = {  
 			type: "GET",
-			url: "http://localhost:7001/com.youtube.rest/api/v1/inventory", 
-			data: "ts="+n,
+			url: "http://localhost:8080/RESTAPI/api/v2/records/allRecord", 
+			data: "ts="+n, 
 			contentType:"application/json",
 			error: function(jqXHR, textStatus, errorThrown) {
 				console.log(jqXHR.responseText);
 			},
 			success: function(data) { 
-				//console.log(data);
+				console.log(data);
 				var html_string = "";
 				
 				$.each(data, function(index1, val1) {
-					//console.log(val1);
+					console.log(val1);
 					html_string = html_string + templateGetInventory(val1);
 				});
 				
-				$('#get_inventory').html("<table border='1'>" + html_string + "</table>");
+				$('#get_friendsData').html("<table border='1'>" + html_string + "</table>");
 			},
 			complete: function(XMLHttpRequest) {
 				//console.log( XMLHttpRequest.getAllResponseHeaders() );

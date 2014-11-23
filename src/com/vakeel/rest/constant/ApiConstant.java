@@ -12,5 +12,6 @@ public class ApiConstant {
 			+ "(NAME, INTEREST,DEVELOPER,CTC,HOMETOWN,COMPANY,POSITION,TECHNOLOGY,PHONENUMBER) "
 			+ "VALUES ( ?, ?, ?, ?, ? ,?, ?, ?, ?) ";
 	public static final String QUERY_UPDATE="update RESTAPI_TEST "+"set COMPANY = ? " +" where PHONENUMBER = ? ";
+	public static final String QUERY_DELETE="delete from RESTAPI_TEST "+ "where PHONENUMBER = ? ";
 
 }

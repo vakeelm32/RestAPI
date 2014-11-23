@@ -1,6 +1,7 @@
 package com.vakeel.rest.dao;
 
 import static com.vakeel.rest.constant.ApiConstant.QUERY_ALL_RECORD;
+import static com.vakeel.rest.constant.ApiConstant.QUERY_DELETE;
 import static com.vakeel.rest.constant.ApiConstant.QUERY_INSERT_RECORD;
 import static com.vakeel.rest.constant.ApiConstant.QUERY_MOBILE;
 import static com.vakeel.rest.constant.ApiConstant.QUERY_UPDATE;
@@ -67,14 +68,6 @@ public class QueryResult extends OracleDao {
 		Connection conn = null;
 
 		try {
-			/*
-			 * If this was a real application, you should do data validation
-			 * here before starting to insert data into the database.
-			 * 
-			 * Important: The primary key on PC_PARTS table will auto increment.
-			 * That means the PC_PARTS_PK column does not need to be apart of
-			 * the SQL insert query below.
-			 */
 			conn = getOracleConn();
 			query = conn.prepareStatement(QUERY_INSERT_RECORD);
 
@@ -102,7 +95,8 @@ public class QueryResult extends OracleDao {
 		return 200;
 	}
 
-	public int updateItem(String companyName, String mobileNumber) throws Exception {
+	public int updateItem(String companyName, String mobileNumber)
+			throws Exception {
 
 		PreparedStatement query = null;
 		Connection conn = null;
@@ -113,6 +107,29 @@ public class QueryResult extends OracleDao {
 
 			query.setString(1, companyName);
 			query.setString(2, mobileNumber);
+			query.executeUpdate();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+			return 500;
+		} finally {
+			if (conn != null)
+				conn.close();
+		}
+
+		return 200;
+	}
+
+	public int deleteItem(String mobileNumber) throws Exception {
+
+		PreparedStatement query = null;
+		Connection conn = null;
+
+		try {
+			conn = getOracleConn();
+			query = conn.prepareStatement(QUERY_DELETE);
+
+			query.setString(1, mobileNumber);
 			query.executeUpdate();
 
 		} catch (Exception e) {
