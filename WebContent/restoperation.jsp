@@ -17,7 +17,7 @@
 
 <body>
 
-<h1>Create , update ,Delate Operation Using Rest API : </h1>
+<h1>Create , update ,Delete Operation Using Rest API : </h1>
 
 <div id="get_friendsData"></div>
 
