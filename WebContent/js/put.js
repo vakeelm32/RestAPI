@@ -45,7 +45,6 @@ $(document).ready(function() {
 	
 	
 	$(document.body).on('click', ' .DELETE_BTN', function(e) {
-		alert('hello');
 		//console.log(this);
 		var $this = $(this)
 			, FRND_DATA = $this.val()
@@ -162,6 +161,7 @@ function getFreindsData() {
 		
 	return $.ajax(ajaxObj);
 }
+
 function templateGetInventory(param) {
 	return '<tr>' +
 				'<td class="name">' + param.NAME + '</td>' +
